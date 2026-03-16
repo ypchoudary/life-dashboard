@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-16T00:14:01.659221+00:00",
+  "updated_at": "2026-03-16T00:30:11.432245+00:00",
   "health": {
     "daily": [
       {
@@ -66,7 +66,7 @@
       "efficiency": 93.1508,
       "respiratory_rate": 15.0
     },
-    "pull_date": "2026-03-16T00:12:51.198167+00:00"
+    "pull_date": "2026-03-16T00:30:10.863041+00:00"
   },
   "family": {
     "wife_score": null,
@@ -77,34 +77,174 @@
     "moments": []
   },
   "wealth": {
-    "net_worth": "$4.2M",
+    "net_worth": "$4.19M",
+    "net_worth_raw": 4189128.0,
+    "total_assets": 5104749.0,
+    "total_liabilities": 915621.0,
     "target": "$8.4M",
-    "progress_pct": 50,
-    "actions": [
+    "target_raw": 8400000,
+    "progress_pct": 49.9,
+    "monthly": [
       {
-        "text": "Life insurance \u2014 get quotes this week",
-        "status": "urgent"
+        "month": "Jan 2025",
+        "value": 3859402.0
       },
       {
-        "text": "Estate planning attorney \u2014 hire by April",
-        "status": "urgent"
+        "month": "Feb 2025",
+        "value": 3867382.0
       },
       {
-        "text": "WA tax attorney \u2014 consult before move",
-        "status": "urgent"
+        "month": "Mar 2025",
+        "value": 3795882.0
       },
       {
-        "text": "Home rental prep \u2014 property manager",
-        "status": "pending"
+        "month": "Apr 2025",
+        "value": 3775610.0
       },
       {
-        "text": "Amazon internal transfer \u2014 in progress",
-        "status": "pending"
+        "month": "May 2025",
+        "value": 3871431.0
       },
       {
-        "text": "Debt elimination ($271K)",
-        "status": "pending"
+        "month": "June 2025",
+        "value": 3980285.0
+      },
+      {
+        "month": "July 2025",
+        "value": 4035923.0
+      },
+      {
+        "month": "Aug 2025",
+        "value": 4073374.0
+      },
+      {
+        "month": "Sep 2025",
+        "value": 4122773.0
+      },
+      {
+        "month": "Oct 2025",
+        "value": 4177474.0
+      },
+      {
+        "month": "Nov 2025",
+        "value": 4182523.0
+      },
+      {
+        "month": "Dec 2025",
+        "value": 4169162.0
+      },
+      {
+        "month": "Jan 2026",
+        "value": 4203599.0
+      },
+      {
+        "month": "Feb 2026",
+        "value": 4200487.0
+      },
+      {
+        "month": "Mar 2026",
+        "value": 4189128.0
       }
-    ]
+    ],
+    "assets": [
+      {
+        "name": "Morgan stanley Brokerage",
+        "value": 620000.0,
+        "category": "Liquid"
+      },
+      {
+        "name": "ASR 401K (ADP)",
+        "value": 29799.0,
+        "category": "Retirement"
+      },
+      {
+        "name": "robinhood",
+        "value": 15000.0,
+        "category": "Liquid"
+      },
+      {
+        "name": "Fidelity Puneet 401K",
+        "value": 482620.0,
+        "category": "Retirement"
+      },
+      {
+        "name": "Ramya 401K",
+        "value": 45000.0,
+        "category": "Retirement"
+      },
+      {
+        "name": "Home value",
+        "value": 1250000.0,
+        "category": "RE"
+      },
+      {
+        "name": "Carter road land",
+        "value": 200000.0,
+        "category": "RE"
+      },
+      {
+        "name": "Ankura India Property",
+        "value": 676471.0,
+        "category": "RE"
+      },
+      {
+        "name": "Car",
+        "value": 25000.0,
+        "category": "Misc"
+      },
+      {
+        "name": "Ramya India Property",
+        "value": 500000.0,
+        "category": "RE"
+      },
+      {
+        "name": "Coinbase",
+        "value": 42605.0,
+        "category": "Liquid"
+      },
+      {
+        "name": "Stockplan connect",
+        "value": 27078.0,
+        "category": "Liquid"
+      },
+      {
+        "name": "Inheritance",
+        "value": 941176.0,
+        "category": "RE"
+      },
+      {
+        "name": "Arlington land",
+        "value": 250000.0,
+        "category": "RE"
+      }
+    ],
+    "liabilities": [
+      {
+        "name": "Morgan stanley securities backed loan",
+        "value": 230108.0,
+        "rate": "3.50%"
+      },
+      {
+        "name": "Primary home main mortgage",
+        "value": 417260.0,
+        "rate": "2.80%"
+      },
+      {
+        "name": "Primary home second mortgage",
+        "value": 204078.0,
+        "rate": "5.50%"
+      },
+      {
+        "name": "Car loan",
+        "value": 64175.0,
+        "rate": "6.42%"
+      }
+    ],
+    "categories": {
+      "Liquid": 704683.0,
+      "Retirement": 557419.0,
+      "RE": 3817647.0,
+      "Misc": 25000.0
+    }
   }
 }
