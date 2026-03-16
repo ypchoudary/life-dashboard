@@ -3,296 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NateClaw — Life Dashboard</title>
+<title>NateClaw Life Dashboard</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f0f; color: #e0e0e0; }
-
-/* Password screen */
 #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
 #auth-box { background: #1a1a1a; padding: 40px; border-radius: 12px; border: 1px solid #2a2a2a; text-align: center; max-width: 360px; width: 100%; }
 #auth-box h2 { margin-bottom: 8px; font-size: 20px; }
-#auth-box p { color: #666; font-size: 13px; margin-bottom: 20px; }
-#auth-box input { width: 100%; padding: 12px; background: #111; border: 1px solid #333; border-radius: 8px; color: #fff; font-size: 14px; margin-bottom: 12px; text-align: center; }
-#auth-box input:focus { outline: none; border-color: #4ade80; }
+#auth-box input { width: 100%; padding: 12px; background: #111; border: 1px solid #333; border-radius: 8px; color: #fff; font-size: 14px; margin: 12px 0; text-align: center; }
 #auth-box button { width: 100%; padding: 12px; background: #4ade80; color: #000; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
-#auth-box button:hover { background: #22c55e; }
 #auth-error { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
-
-/* Dashboard */
-#dashboard { display: none; padding: 20px; }
-h1 { text-align: center; margin-bottom: 8px; font-size: 24px; color: #fff; }
-.subtitle { text-align: center; color: #666; margin-bottom: 24px; font-size: 13px; }
-.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; max-width: 1400px; margin: 0 auto; }
-.section { background: #1a1a1a; border-radius: 12px; padding: 20px; border: 1px solid #2a2a2a; }
-.section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #2a2a2a; }
-.section-header h2 { font-size: 18px; }
-.section-header .emoji { font-size: 22px; }
-.metric-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1f1f1f; }
-.metric-row:last-child { border-bottom: none; }
-.metric-label { color: #999; font-size: 13px; }
-.metric-value { font-size: 20px; font-weight: 700; }
-.metric-sub { font-size: 11px; color: #666; margin-top: 2px; }
+#app { display: none; min-height: 100vh; padding: 20px; }
+nav { background: #1a1a1a; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 16px; }
+nav a { color: #999; text-decoration: none; font-size: 14px; }
+nav a.active { color: #4ade80; font-weight: 600; }
+.container { max-width: 1400px; margin: 0 auto; }
+h1 { text-align: center; margin-bottom: 8px; font-size: 28px; }
+.subtitle { text-align: center; color: #666; margin-bottom: 32px; font-size: 13px; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card { background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a; }
+.card-header { font-size: 16px; color: #999; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.big-number { font-size: 48px; font-weight: 800; text-align: center; margin: 20px 0; }
 .status-good { color: #4ade80; }
 .status-warn { color: #fbbf24; }
 .status-bad { color: #f87171; }
-.status-neutral { color: #94a3b8; }
-.target { color: #555; font-size: 11px; }
-.chart-container { margin-top: 12px; padding: 12px; background: #111; border-radius: 8px; }
-.bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 80px; }
-.bar { flex: 1; border-radius: 3px 3px 0 0; min-width: 20px; position: relative; }
-.bar-label { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 9px; color: #555; white-space: nowrap; }
-.bar-value { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 9px; color: #888; }
-.checklist { list-style: none; }
-.checklist li { padding: 8px 0; border-bottom: 1px solid #1f1f1f; font-size: 13px; display: flex; align-items: center; gap: 8px; }
-.checklist li:last-child { border-bottom: none; }
-.check { width: 18px; height: 18px; border-radius: 4px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
-.check.done { background: #4ade80; border-color: #4ade80; color: #000; }
-.check.pending { border-color: #fbbf24; }
-.check.urgent { border-color: #f87171; }
-.nw-big { font-size: 36px; font-weight: 800; color: #fff; text-align: center; margin: 12px 0; }
-.nw-target { text-align: center; color: #666; font-size: 13px; }
+.sparkline { height: 40px; display: flex; align-items: flex-end; gap: 2px; margin: 16px 0; }
+.spark-bar { flex: 1; background: #333; border-radius: 2px 2px 0 0; }
+.quick-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
+.stat { background: #111; padding: 12px; border-radius: 6px; text-align: center; }
+.stat-label { font-size: 10px; color: #666; margin-bottom: 4px; }
+.stat-value { font-size: 18px; font-weight: 700; }
+.stat-arrow { font-size: 10px; margin-left: 4px; }
+.link-btn { display: block; text-align: center; margin-top: 16px; padding: 8px; background: #222; border-radius: 6px; color: #4ade80; text-decoration: none; font-size: 13px; }
 .progress-bar { height: 8px; background: #222; border-radius: 4px; margin: 12px 0; overflow: hidden; }
-.progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #4ade80, #22d3ee); }
-.family-score { display: flex; gap: 12px; justify-content: center; margin: 12px 0; }
-.score-circle { width: 64px; height: 64px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 3px solid #333; }
-.score-circle .num { font-size: 20px; font-weight: 700; }
-.score-circle .lbl { font-size: 8px; color: #888; text-transform: uppercase; }
-.timestamp { text-align: center; color: #444; font-size: 11px; margin-top: 20px; padding-bottom: 20px; }
-.logout { position: fixed; top: 12px; right: 16px; background: none; border: 1px solid #333; color: #666; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; }
-.logout:hover { border-color: #f87171; color: #f87171; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #4ade80, #22d3ee); }
+.score-circles { display: flex; gap: 16px; justify-content: center; margin: 20px 0; }
+.circle { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #333; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.circle-num { font-size: 28px; font-weight: 700; }
+.circle-label { font-size: 9px; color: #666; text-transform: uppercase; }
 @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-
-<!-- PASSWORD SCREEN -->
 <div id="auth-screen">
-  <div id="auth-box">
-    <h2>🔥 NateClaw</h2>
-    <p>Life Dashboard</p>
-    <input type="password" id="pw-input" placeholder="Enter password" autofocus>
-    <button onclick="authenticate()">Unlock</button>
-    <div id="auth-error">Wrong password</div>
-  </div>
+<div id="auth-box">
+<h2>🔥 NateClaw</h2>
+<p>Life Dashboard</p>
+<input type="password" id="pw" placeholder="Password" autofocus>
+<button onclick="auth()">Unlock</button>
+<div id="auth-error">Wrong password</div>
 </div>
-
-<!-- DASHBOARD -->
-<div id="dashboard">
-<button class="logout" onclick="logout()">Logout</button>
-<h1>🔥 NateClaw — Life Dashboard</h1>
-<p class="subtitle">Health &gt; Family &gt; Wealth | Updated: <span id="lastUpdate"></span></p>
-
+</div>
+<div id="app">
+<nav>
+<a href="#" id="nav-summary">Summary</a>
+<a href="#health" id="nav-health">Health</a>
+<a href="#family" id="nav-family">Family</a>
+<a href="#wealth" id="nav-wealth">Wealth</a>
+</nav>
+<div class="container">
+<div id="summary-view">
+<h1>🔥 Life Dashboard</h1>
+<p class="subtitle">Health &gt; Family &gt; Wealth</p>
 <div class="grid">
-  <!-- HEALTH -->
-  <div class="section">
-    <div class="section-header">
-      <span class="emoji">🏥</span>
-      <h2>Health</h2>
-    </div>
-    <div class="metric-row">
-      <div><div class="metric-label">Recovery</div><div class="target">Target: 65%+</div></div>
-      <div style="text-align:right"><div class="metric-value" id="h-recovery">—</div><div class="metric-sub" id="h-recovery-avg">7d avg: —</div></div>
-    </div>
-    <div class="metric-row">
-      <div><div class="metric-label">HRV</div><div class="target">Target: 30+ ms</div></div>
-      <div style="text-align:right"><div class="metric-value" id="h-hrv">—</div><div class="metric-sub" id="h-hrv-avg">7d avg: —</div></div>
-    </div>
-    <div class="metric-row">
-      <div><div class="metric-label">Resting HR</div><div class="target">Target: &lt;65 bpm</div></div>
-      <div style="text-align:right"><div class="metric-value" id="h-rhr">—</div><div class="metric-sub" id="h-rhr-avg">7d avg: —</div></div>
-    </div>
-    <div class="metric-row">
-      <div><div class="metric-label">Sleep</div><div class="target">Target: 85%+</div></div>
-      <div style="text-align:right"><div class="metric-value" id="h-sleep">—</div><div class="metric-sub" id="h-sleep-avg">7d avg: —</div></div>
-    </div>
-    <div class="metric-row">
-      <div><div class="metric-label">SpO2</div><div class="target">Target: 95%+</div></div>
-      <div style="text-align:right"><div class="metric-value" id="h-spo2">—</div><div class="metric-sub" id="h-spo2-avg">7d avg: —</div></div>
-    </div>
-    <div class="metric-row">
-      <div><div class="metric-label">Strain / Workouts</div><div class="target">Target: 10+ / 3+</div></div>
-      <div style="text-align:right"><div class="metric-value" id="h-strain">—</div><div class="metric-sub" id="h-workouts">Workouts: —</div></div>
-    </div>
-    <div class="chart-container">
-      <div style="font-size:11px;color:#666;margin-bottom:8px;">7-Day Recovery</div>
-      <div class="bar-chart" id="recovery-chart"></div>
-    </div>
-  </div>
-
-  <!-- FAMILY -->
-  <div class="section">
-    <div class="section-header">
-      <span class="emoji">👨‍👩‍👧‍👧</span>
-      <h2>Family</h2>
-    </div>
-    <div style="text-align:center;color:#666;font-size:12px;margin-bottom:12px;">Weekly Self-Assessment</div>
-    <div class="family-score">
-      <div class="score-circle"><span class="num" id="f-wife">—</span><span class="lbl">Wife</span></div>
-      <div class="score-circle"><span class="num" id="f-kids">—</span><span class="lbl">Kids</span></div>
-      <div class="score-circle"><span class="num" id="f-overall">—</span><span class="lbl">Overall</span></div>
-    </div>
-    <div style="text-align:center;color:#555;font-size:11px;margin:8px 0 16px;">Scores update every Sunday</div>
-    <div class="metric-row">
-      <div class="metric-label">Daily Gratitude Streak</div>
-      <div class="metric-value status-neutral" id="f-gratitude">0 days</div>
-    </div>
-    <div class="metric-row">
-      <div class="metric-label">Intentional Family Time</div>
-      <div class="metric-value status-neutral" id="f-quality-time">—</div>
-    </div>
-    <div style="margin-top:16px;font-size:12px;color:#666;">Recent Moments</div>
-    <ul class="checklist" id="f-moments">
-      <li style="color:#555;font-style:italic;">No entries yet — starts next Sunday</li>
-    </ul>
-  </div>
-
-  <!-- WEALTH -->
-  <div class="section">
-    <div class="section-header">
-      <span class="emoji">💰</span>
-      <h2>Wealth</h2>
-    </div>
-    <div class="nw-big" id="w-networth">$4.2M</div>
-    <div class="nw-target">Target: $8.4M by age 50</div>
-    <div class="progress-bar"><div class="progress-fill" id="w-progress" style="width:50%"></div></div>
-    <div style="text-align:center;color:#555;font-size:11px;margin-bottom:16px;" id="w-progress-label">50% of goal</div>
-    <div style="margin-top:8px;font-size:12px;color:#666;margin-bottom:8px;">Critical Action Items</div>
-    <ul class="checklist" id="w-actions">
-      <li><div class="check urgent">!</div> Life insurance — get quotes this week</li>
-      <li><div class="check urgent">!</div> Estate planning attorney — hire by April</li>
-      <li><div class="check urgent">!</div> WA tax attorney — consult before move</li>
-      <li><div class="check pending">○</div> Home rental prep — property manager</li>
-      <li><div class="check pending">○</div> Amazon internal transfer — in progress</li>
-      <li><div class="check pending">○</div> Debt elimination ($271K) — Week 1 plan</li>
-    </ul>
-    <div style="margin-top:16px;font-size:12px;color:#666;margin-bottom:8px;">Key Dates</div>
-    <ul class="checklist">
-      <li><div class="check pending">○</div> May 2026 — Wife + kids to India</li>
-      <li><div class="check pending">○</div> Sep 2026 — Puneet to India (est.)</li>
-      <li><div class="check pending">○</div> Nov 2028 — File Form 8288-B</li>
-      <li><div class="check pending">○</div> Feb 2029 — Triple Liquidation</li>
-    </ul>
-  </div>
+<div class="card">
+<div class="card-header">🏥 Health</div>
+<div class="big-number" id="h-recovery">—</div>
+<div class="sparkline" id="h-sparkline"></div>
+<div class="quick-stats">
+<div class="stat"><div class="stat-label">HRV</div><div class="stat-value" id="h-hrv">—</div></div>
+<div class="stat"><div class="stat-label">RHR</div><div class="stat-value" id="h-rhr">—</div></div>
+<div class="stat"><div class="stat-label">Sleep</div><div class="stat-value" id="h-sleep">—</div></div>
+<div class="stat"><div class="stat-label">SpO2</div><div class="stat-value" id="h-spo2">—</div></div>
 </div>
-
-<p class="timestamp" id="footer-ts"></p>
+<a href="#health" class="link-btn">View Details →</a>
 </div>
-
+<div class="card">
+<div class="card-header">👨‍👩‍👧‍👧 Family</div>
+<div class="score-circles">
+<div class="circle"><span class="circle-num" id="f-wife">—</span><span class="circle-label">Wife</span></div>
+<div class="circle"><span class="circle-num" id="f-kids">—</span><span class="circle-label">Kids</span></div>
+<div class="circle"><span class="circle-num" id="f-overall">—</span><span class="circle-label">Overall</span></div>
+</div>
+<div style="text-align:center;color:#666;font-size:13px;" id="f-status">Next check-in: Sunday</div>
+<a href="#family" class="link-btn">View Details →</a>
+</div>
+<div class="card">
+<div class="card-header">💰 Wealth</div>
+<div class="big-number" id="w-nw">$4.2M</div>
+<div class="progress-bar"><div class="progress-fill" id="w-progress"></div></div>
+<div style="text-align:center;color:#666;font-size:12px;margin-bottom:16px;" id="w-pct">50% of $8.4M goal</div>
+<div class="sparkline" id="w-sparkline"></div>
+<a href="#wealth" class="link-btn">View Details →</a>
+</div>
+</div>
+</div>
+<div id="health-view" style="display:none">
+<a href="#" style="color:#4ade80;text-decoration:none;font-size:14px;">← Back</a>
+<h1 style="margin-top:20px;">🏥 Health Details</h1>
+<div style="color:#666;text-align:center;margin:20px 0;">Coming soon - full metrics breakdown</div>
+</div>
+<div id="family-view" style="display:none">
+<a href="#" style="color:#4ade80;text-decoration:none;font-size:14px;">← Back</a>
+<h1 style="margin-top:20px;">👨‍👩‍👧‍👧 Family Details</h1>
+<div style="color:#666;text-align:center;margin:20px 0;">Coming soon - weekly tracking</div>
+</div>
+<div id="wealth-view" style="display:none">
+<a href="#" style="color:#4ade80;text-decoration:none;font-size:14px;">← Back</a>
+<h1 style="margin-top:20px;">💰 Wealth Details</h1>
+<div style="color:#666;text-align:center;margin:20px 0;">Coming soon - full breakdown</div>
+</div>
+</div>
+</div>
 <script>
-// Simple client-side password (SHA-256 hash comparison)
-// Password hash is stored, not the password itself
-const PASS_HASH = 'e58c7fae7d38b293d68db4fe3d4401d31e2a588748e10f52f3a20785582dda88';
-
-async function sha256(text) {
-  const data = new TextEncoder().encode(text);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-async function authenticate() {
-  const pw = document.getElementById('pw-input').value;
-  const hash = await sha256(pw);
-  if (hash === PASS_HASH) {
-    sessionStorage.setItem('nc-auth', hash);
-    showDashboard();
-  } else {
-    document.getElementById('auth-error').style.display = 'block';
-    document.getElementById('pw-input').value = '';
-  }
-}
-
-function logout() {
-  sessionStorage.removeItem('nc-auth');
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-  document.getElementById('pw-input').value = '';
-  document.getElementById('auth-error').style.display = 'none';
-}
-
-function showDashboard() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-  loadData();
-}
-
-// Check if already authenticated in this session
-(async () => {
-  const stored = sessionStorage.getItem('nc-auth');
-  if (stored === PASS_HASH) showDashboard();
-  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') authenticate(); });
-})();
-
-async function loadData() {
-  try {
-    const resp = await fetch('./data.json');
-    const data = await resp.json();
-    const h = data.health || {};
-    const latest = h.latest || {};
-    const avg = h.averages || {};
-    const daily = h.daily || [];
-
-    setMetric('h-recovery', latest.recovery, '%', 65, 'lower');
-    setMetric('h-hrv', latest.hrv, ' ms', 30, 'lower');
-    setMetric('h-rhr', latest.rhr, ' bpm', 65, 'upper');
-    setMetric('h-sleep', h.latest_sleep?.performance, '%', 85, 'lower');
-    setMetric('h-spo2', latest.spo2, '%', 95, 'lower');
-    setMetric('h-strain', avg.strain, '', 10, 'lower');
-
-    setText('h-recovery-avg', `7d avg: ${avg.recovery || '—'}%`);
-    setText('h-hrv-avg', `7d avg: ${avg.hrv || '—'} ms`);
-    setText('h-rhr-avg', `7d avg: ${avg.rhr || '—'} bpm`);
-    setText('h-sleep-avg', `7d avg: ${avg.sleep_performance || '—'}%`);
-    setText('h-spo2-avg', `7d avg: ${avg.spo2 || '—'}%`);
-    setText('h-workouts', `Workouts: ${h.workout_count ?? '—'}`);
-
-    const chart = document.getElementById('recovery-chart');
-    chart.innerHTML = '';
-    [...daily].reverse().forEach((d, i) => {
-      const pct = d.recovery || 0;
-      const color = pct >= 67 ? '#4ade80' : pct >= 34 ? '#fbbf24' : '#f87171';
-      const bar = document.createElement('div');
-      bar.className = 'bar';
-      bar.style.height = pct + '%';
-      bar.style.background = color;
-      bar.innerHTML = `<span class="bar-value">${pct}%</span><span class="bar-label">D${i+1}</span>`;
-      chart.appendChild(bar);
-    });
-
-    const f = data.family || {};
-    setText('f-wife', f.wife_score ?? '—');
-    setText('f-kids', f.kids_score ?? '—');
-    setText('f-overall', f.overall_score ?? '—');
-    setText('f-gratitude', (f.gratitude_streak || 0) + ' days');
-    setText('f-quality-time', f.quality_time || '—');
-
-    const w = data.wealth || {};
-    setText('w-networth', w.net_worth || '$4.2M');
-    const pctGoal = w.progress_pct || 50;
-    document.getElementById('w-progress').style.width = pctGoal + '%';
-    setText('w-progress-label', pctGoal + '% of goal');
-
-    const ts = data.updated_at || new Date().toISOString();
-    const d = new Date(ts);
-    setText('lastUpdate', d.toLocaleDateString() + ' ' + d.toLocaleTimeString());
-    setText('footer-ts', 'Whoop API connected ✅ • Auto-refreshes daily');
-  } catch(e) {
-    document.getElementById('footer-ts').textContent = 'Error loading data: ' + e.message;
-  }
-}
-
-function setMetric(id, value, unit, target, direction) {
-  const el = document.getElementById(id);
-  if (value == null) { el.textContent = '—'; return; }
-  el.textContent = (typeof value === 'number' ? Math.round(value * 10) / 10 : value) + (unit || '');
-  if (direction === 'lower') {
-    el.className = 'metric-value ' + (value >= target ? 'status-good' : value >= target * 0.8 ? 'status-warn' : 'status-bad');
-  } else {
-    el.className = 'metric-value ' + (value <= target ? 'status-good' : value <= target * 1.2 ? 'status-warn' : 'status-bad');
-  }
-}
-
-function setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
+const HASH='e58c7fae7d38b293d68db4fe3d4401d31e2a588748e10f52f3a20785582dda88';
+async function sha256(t){const d=new TextEncoder().encode(t),h=await crypto.subtle.digest('SHA-256',d);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+async function auth(){const p=document.getElementById('pw').value,h=await sha256(p);if(h===HASH){sessionStorage.setItem('auth',h);show()}else{document.getElementById('auth-error').style.display='block';document.getElementById('pw').value=''}}
+function show(){document.getElementById('auth-screen').style.display='none';document.getElementById('app').style.display='block';load();route()}
+function route(){const v=location.hash.slice(1)||'summary';['summary','health','family','wealth'].forEach(n=>{document.getElementById(n+'-view').style.display=n===v?'block':'none';document.getElementById('nav-'+n).classList.toggle('active',n===v)})}
+window.addEventListener('hashchange',route);
+document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')auth()});
+if(sessionStorage.getItem('auth')===HASH)show();
+async function load(){try{const r=await fetch('./data.json'),d=await r.json(),h=d.health||{},w=d.wealth||{},f=d.family||{};const rec=h.latest?.recovery||0;document.getElementById('h-recovery').textContent=rec+'%';document.getElementById('h-recovery').className='big-number '+(rec>=65?'status-good':rec>=52?'status-warn':'status-bad');const sl=document.getElementById('h-sparkline');(h.daily||[]).slice(-7).reverse().forEach(day=>{const b=document.createElement('div');b.className='spark-bar';b.style.height=(day.recovery||0)+'%';b.style.background=day.recovery>=67?'#4ade80':day.recovery>=34?'#fbbf24':'#f87171';sl.appendChild(b)});document.getElementById('h-hrv').textContent=(h.latest?.hrv||0).toFixed(1);document.getElementById('h-rhr').textContent=(h.latest?.rhr||0);document.getElementById('h-sleep').textContent=(h.latest_sleep?.performance||0)+'%';document.getElementById('h-spo2').textContent=(h.latest?.spo2||0)+'%';document.getElementById('f-wife').textContent=f.wife_score||'—';document.getElementById('f-kids').textContent=f.kids_score||'—';document.getElementById('f-overall').textContent=f.overall_score||'—';document.getElementById('w-nw').textContent=w.net_worth||'$4.2M';const pct=w.progress_pct||50;document.getElementById('w-progress').style.width=pct+'%';document.getElementById('w-pct').textContent=pct+'% of $8.4M goal';const wsl=document.getElementById('w-sparkline');(w.monthly||[]).slice(-12).forEach(m=>{const b=document.createElement('div');b.className='spark-bar';b.style.height=Math.min(100,(m.value/4200000)*100)+'%';b.style.background='#4ade80';wsl.appendChild(b)})}catch(e){console.error(e)}}
 </script>
 </body>
 </html>
