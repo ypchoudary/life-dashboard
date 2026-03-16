@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NateClaw — Life Dashboard</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f0f; color: #e0e0e0; }
+
+/* Password screen */
+#auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+#auth-box { background: #1a1a1a; padding: 40px; border-radius: 12px; border: 1px solid #2a2a2a; text-align: center; max-width: 360px; width: 100%; }
+#auth-box h2 { margin-bottom: 8px; font-size: 20px; }
+#auth-box p { color: #666; font-size: 13px; margin-bottom: 20px; }
+#auth-box input { width: 100%; padding: 12px; background: #111; border: 1px solid #333; border-radius: 8px; color: #fff; font-size: 14px; margin-bottom: 12px; text-align: center; }
+#auth-box input:focus { outline: none; border-color: #4ade80; }
+#auth-box button { width: 100%; padding: 12px; background: #4ade80; color: #000; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+#auth-box button:hover { background: #22c55e; }
+#auth-error { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
+
+/* Dashboard */
+#dashboard { display: none; padding: 20px; }
+h1 { text-align: center; margin-bottom: 8px; font-size: 24px; color: #fff; }
+.subtitle { text-align: center; color: #666; margin-bottom: 24px; font-size: 13px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; max-width: 1400px; margin: 0 auto; }
+.section { background: #1a1a1a; border-radius: 12px; padding: 20px; border: 1px solid #2a2a2a; }
+.section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #2a2a2a; }
+.section-header h2 { font-size: 18px; }
+.section-header .emoji { font-size: 22px; }
+.metric-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1f1f1f; }
+.metric-row:last-child { border-bottom: none; }
+.metric-label { color: #999; font-size: 13px; }
+.metric-value { font-size: 20px; font-weight: 700; }
+.metric-sub { font-size: 11px; color: #666; margin-top: 2px; }
+.status-good { color: #4ade80; }
+.status-warn { color: #fbbf24; }
+.status-bad { color: #f87171; }
+.status-neutral { color: #94a3b8; }
+.target { color: #555; font-size: 11px; }
+.chart-container { margin-top: 12px; padding: 12px; background: #111; border-radius: 8px; }
+.bar-chart { display: flex; align-items: flex-end; gap: 4px; height: 80px; }
+.bar { flex: 1; border-radius: 3px 3px 0 0; min-width: 20px; position: relative; }
+.bar-label { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 9px; color: #555; white-space: nowrap; }
+.bar-value { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 9px; color: #888; }
+.checklist { list-style: none; }
+.checklist li { padding: 8px 0; border-bottom: 1px solid #1f1f1f; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.checklist li:last-child { border-bottom: none; }
+.check { width: 18px; height: 18px; border-radius: 4px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; }
+.check.done { background: #4ade80; border-color: #4ade80; color: #000; }
+.check.pending { border-color: #fbbf24; }
+.check.urgent { border-color: #f87171; }
+.nw-big { font-size: 36px; font-weight: 800; color: #fff; text-align: center; margin: 12px 0; }
+.nw-target { text-align: center; color: #666; font-size: 13px; }
+.progress-bar { height: 8px; background: #222; border-radius: 4px; margin: 12px 0; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #4ade80, #22d3ee); }
+.family-score { display: flex; gap: 12px; justify-content: center; margin: 12px 0; }
+.score-circle { width: 64px; height: 64px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 3px solid #333; }
+.score-circle .num { font-size: 20px; font-weight: 700; }
+.score-circle .lbl { font-size: 8px; color: #888; text-transform: uppercase; }
+.timestamp { text-align: center; color: #444; font-size: 11px; margin-top: 20px; padding-bottom: 20px; }
+.logout { position: fixed; top: 12px; right: 16px; background: none; border: 1px solid #333; color: #666; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+.logout:hover { border-color: #f87171; color: #f87171; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="auth-screen">
+  <div id="auth-box">
+    <h2>🔥 NateClaw</h2>
+    <p>Life Dashboard</p>
+    <input type="password" id="pw-input" placeholder="Enter password" autofocus>
+    <button onclick="authenticate()">Unlock</button>
+    <div id="auth-error">Wrong password</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+<button class="logout" onclick="logout()">Logout</button>
+<h1>🔥 NateClaw — Life Dashboard</h1>
+<p class="subtitle">Health &gt; Family &gt; Wealth | Updated: <span id="lastUpdate"></span></p>
+
+<div class="grid">
+  <!-- HEALTH -->
+  <div class="section">
+    <div class="section-header">
+      <span class="emoji">🏥</span>
+      <h2>Health</h2>
+    </div>
+    <div class="metric-row">
+      <div><div class="metric-label">Recovery</div><div class="target">Target: 65%+</div></div>
+      <div style="text-align:right"><div class="metric-value" id="h-recovery">—</div><div class="metric-sub" id="h-recovery-avg">7d avg: —</div></div>
+    </div>
+    <div class="metric-row">
+      <div><div class="metric-label">HRV</div><div class="target">Target: 30+ ms</div></div>
+      <div style="text-align:right"><div class="metric-value" id="h-hrv">—</div><div class="metric-sub" id="h-hrv-avg">7d avg: —</div></div>
+    </div>
+    <div class="metric-row">
+      <div><div class="metric-label">Resting HR</div><div class="target">Target: &lt;65 bpm</div></div>
+      <div style="text-align:right"><div class="metric-value" id="h-rhr">—</div><div class="metric-sub" id="h-rhr-avg">7d avg: —</div></div>
+    </div>
+    <div class="metric-row">
+      <div><div class="metric-label">Sleep</div><div class="target">Target: 85%+</div></div>
+      <div style="text-align:right"><div class="metric-value" id="h-sleep">—</div><div class="metric-sub" id="h-sleep-avg">7d avg: —</div></div>
+    </div>
+    <div class="metric-row">
+      <div><div class="metric-label">SpO2</div><div class="target">Target: 95%+</div></div>
+      <div style="text-align:right"><div class="metric-value" id="h-spo2">—</div><div class="metric-sub" id="h-spo2-avg">7d avg: —</div></div>
+    </div>
+    <div class="metric-row">
+      <div><div class="metric-label">Strain / Workouts</div><div class="target">Target: 10+ / 3+</div></div>
+      <div style="text-align:right"><div class="metric-value" id="h-strain">—</div><div class="metric-sub" id="h-workouts">Workouts: —</div></div>
+    </div>
+    <div class="chart-container">
+      <div style="font-size:11px;color:#666;margin-bottom:8px;">7-Day Recovery</div>
+      <div class="bar-chart" id="recovery-chart"></div>
+    </div>
+  </div>
+
+  <!-- FAMILY -->
+  <div class="section">
+    <div class="section-header">
+      <span class="emoji">👨‍👩‍👧‍👧</span>
+      <h2>Family</h2>
+    </div>
+    <div style="text-align:center;color:#666;font-size:12px;margin-bottom:12px;">Weekly Self-Assessment</div>
+    <div class="family-score">
+      <div class="score-circle"><span class="num" id="f-wife">—</span><span class="lbl">Wife</span></div>
+      <div class="score-circle"><span class="num" id="f-kids">—</span><span class="lbl">Kids</span></div>
+      <div class="score-circle"><span class="num" id="f-overall">—</span><span class="lbl">Overall</span></div>
+    </div>
+    <div style="text-align:center;color:#555;font-size:11px;margin:8px 0 16px;">Scores update every Sunday</div>
+    <div class="metric-row">
+      <div class="metric-label">Daily Gratitude Streak</div>
+      <div class="metric-value status-neutral" id="f-gratitude">0 days</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Intentional Family Time</div>
+      <div class="metric-value status-neutral" id="f-quality-time">—</div>
+    </div>
+    <div style="margin-top:16px;font-size:12px;color:#666;">Recent Moments</div>
+    <ul class="checklist" id="f-moments">
+      <li style="color:#555;font-style:italic;">No entries yet — starts next Sunday</li>
+    </ul>
+  </div>
+
+  <!-- WEALTH -->
+  <div class="section">
+    <div class="section-header">
+      <span class="emoji">💰</span>
+      <h2>Wealth</h2>
+    </div>
+    <div class="nw-big" id="w-networth">$4.2M</div>
+    <div class="nw-target">Target: $8.4M by age 50</div>
+    <div class="progress-bar"><div class="progress-fill" id="w-progress" style="width:50%"></div></div>
+    <div style="text-align:center;color:#555;font-size:11px;margin-bottom:16px;" id="w-progress-label">50% of goal</div>
+    <div style="margin-top:8px;font-size:12px;color:#666;margin-bottom:8px;">Critical Action Items</div>
+    <ul class="checklist" id="w-actions">
+      <li><div class="check urgent">!</div> Life insurance — get quotes this week</li>
+      <li><div class="check urgent">!</div> Estate planning attorney — hire by April</li>
+      <li><div class="check urgent">!</div> WA tax attorney — consult before move</li>
+      <li><div class="check pending">○</div> Home rental prep — property manager</li>
+      <li><div class="check pending">○</div> Amazon internal transfer — in progress</li>
+      <li><div class="check pending">○</div> Debt elimination ($271K) — Week 1 plan</li>
+    </ul>
+    <div style="margin-top:16px;font-size:12px;color:#666;margin-bottom:8px;">Key Dates</div>
+    <ul class="checklist">
+      <li><div class="check pending">○</div> May 2026 — Wife + kids to India</li>
+      <li><div class="check pending">○</div> Sep 2026 — Puneet to India (est.)</li>
+      <li><div class="check pending">○</div> Nov 2028 — File Form 8288-B</li>
+      <li><div class="check pending">○</div> Feb 2029 — Triple Liquidation</li>
+    </ul>
+  </div>
+</div>
+
+<p class="timestamp" id="footer-ts"></p>
+</div>
+
+<script>
+// Simple client-side password (SHA-256 hash comparison)
+// Password hash is stored, not the password itself
+const PASS_HASH = 'e58c7fae7d38b293d68db4fe3d4401d31e2a588748e10f52f3a20785582dda88';
+
+async function sha256(text) {
+  const data = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function authenticate() {
+  const pw = document.getElementById('pw-input').value;
+  const hash = await sha256(pw);
+  if (hash === PASS_HASH) {
+    sessionStorage.setItem('nc-auth', hash);
+    showDashboard();
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('nc-auth');
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('pw-input').value = '';
+  document.getElementById('auth-error').style.display = 'none';
+}
+
+function showDashboard() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  loadData();
+}
+
+// Check if already authenticated in this session
+(async () => {
+  const stored = sessionStorage.getItem('nc-auth');
+  if (stored === PASS_HASH) showDashboard();
+  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') authenticate(); });
+})();
+
+async function loadData() {
+  try {
+    const resp = await fetch('./data.json');
+    const data = await resp.json();
+    const h = data.health || {};
+    const latest = h.latest || {};
+    const avg = h.averages || {};
+    const daily = h.daily || [];
+
+    setMetric('h-recovery', latest.recovery, '%', 65, 'lower');
+    setMetric('h-hrv', latest.hrv, ' ms', 30, 'lower');
+    setMetric('h-rhr', latest.rhr, ' bpm', 65, 'upper');
+    setMetric('h-sleep', h.latest_sleep?.performance, '%', 85, 'lower');
+    setMetric('h-spo2', latest.spo2, '%', 95, 'lower');
+    setMetric('h-strain', avg.strain, '', 10, 'lower');
+
+    setText('h-recovery-avg', `7d avg: ${avg.recovery || '—'}%`);
+    setText('h-hrv-avg', `7d avg: ${avg.hrv || '—'} ms`);
+    setText('h-rhr-avg', `7d avg: ${avg.rhr || '—'} bpm`);
+    setText('h-sleep-avg', `7d avg: ${avg.sleep_performance || '—'}%`);
+    setText('h-spo2-avg', `7d avg: ${avg.spo2 || '—'}%`);
+    setText('h-workouts', `Workouts: ${h.workout_count ?? '—'}`);
+
+    const chart = document.getElementById('recovery-chart');
+    chart.innerHTML = '';
+    [...daily].reverse().forEach((d, i) => {
+      const pct = d.recovery || 0;
+      const color = pct >= 67 ? '#4ade80' : pct >= 34 ? '#fbbf24' : '#f87171';
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      bar.style.height = pct + '%';
+      bar.style.background = color;
+      bar.innerHTML = `<span class="bar-value">${pct}%</span><span class="bar-label">D${i+1}</span>`;
+      chart.appendChild(bar);
+    });
+
+    const f = data.family || {};
+    setText('f-wife', f.wife_score ?? '—');
+    setText('f-kids', f.kids_score ?? '—');
+    setText('f-overall', f.overall_score ?? '—');
+    setText('f-gratitude', (f.gratitude_streak || 0) + ' days');
+    setText('f-quality-time', f.quality_time || '—');
+
+    const w = data.wealth || {};
+    setText('w-networth', w.net_worth || '$4.2M');
+    const pctGoal = w.progress_pct || 50;
+    document.getElementById('w-progress').style.width = pctGoal + '%';
+    setText('w-progress-label', pctGoal + '% of goal');
+
+    const ts = data.updated_at || new Date().toISOString();
+    const d = new Date(ts);
+    setText('lastUpdate', d.toLocaleDateString() + ' ' + d.toLocaleTimeString());
+    setText('footer-ts', 'Whoop API connected ✅ • Auto-refreshes daily');
+  } catch(e) {
+    document.getElementById('footer-ts').textContent = 'Error loading data: ' + e.message;
+  }
+}
+
+function setMetric(id, value, unit, target, direction) {
+  const el = document.getElementById(id);
+  if (value == null) { el.textContent = '—'; return; }
+  el.textContent = (typeof value === 'number' ? Math.round(value * 10) / 10 : value) + (unit || '');
+  if (direction === 'lower') {
+    el.className = 'metric-value ' + (value >= target ? 'status-good' : value >= target * 0.8 ? 'status-warn' : 'status-bad');
+  } else {
+    el.className = 'metric-value ' + (value <= target ? 'status-good' : value <= target * 1.2 ? 'status-warn' : 'status-bad');
+  }
+}
+
+function setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
+</script>
+</body>
+</html>

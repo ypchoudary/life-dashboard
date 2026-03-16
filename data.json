@@ -1,0 +1,110 @@
+{
+  "updated_at": "2026-03-16T00:14:01.659221+00:00",
+  "health": {
+    "daily": [
+      {
+        "recovery": 47.0,
+        "hrv": 14.6,
+        "rhr": 80.0,
+        "spo2": 94.0
+      },
+      {
+        "recovery": 54.0,
+        "hrv": 15.4,
+        "rhr": 78.0,
+        "spo2": 95.2
+      },
+      {
+        "recovery": 79.0,
+        "hrv": 18.2,
+        "rhr": 76.0,
+        "spo2": 93.9
+      },
+      {
+        "recovery": 55.0,
+        "hrv": 15.2,
+        "rhr": 77.0,
+        "spo2": 93.4
+      },
+      {
+        "recovery": 54.0,
+        "hrv": 15.7,
+        "rhr": 82.0,
+        "spo2": 94.4
+      },
+      {
+        "recovery": 69.0,
+        "hrv": 17.8,
+        "rhr": 76.0,
+        "spo2": 93.9
+      },
+      {
+        "recovery": 64.0,
+        "hrv": 16.8,
+        "rhr": 78.0,
+        "spo2": 92.6
+      }
+    ],
+    "averages": {
+      "recovery": 60.3,
+      "hrv": 16.2,
+      "rhr": 78.1,
+      "spo2": 93.9,
+      "strain": 9.3,
+      "sleep_performance": 81.5
+    },
+    "workout_count": 0,
+    "latest": {
+      "recovery": 47.0,
+      "hrv": 14.6,
+      "rhr": 80.0,
+      "spo2": 94.0,
+      "skin_temp": 35.023834
+    },
+    "latest_sleep": {
+      "performance": 77.0,
+      "efficiency": 93.1508,
+      "respiratory_rate": 15.0
+    },
+    "pull_date": "2026-03-16T00:12:51.198167+00:00"
+  },
+  "family": {
+    "wife_score": null,
+    "kids_score": null,
+    "overall_score": null,
+    "gratitude_streak": 0,
+    "quality_time": "Not tracked yet",
+    "moments": []
+  },
+  "wealth": {
+    "net_worth": "$4.2M",
+    "target": "$8.4M",
+    "progress_pct": 50,
+    "actions": [
+      {
+        "text": "Life insurance \u2014 get quotes this week",
+        "status": "urgent"
+      },
+      {
+        "text": "Estate planning attorney \u2014 hire by April",
+        "status": "urgent"
+      },
+      {
+        "text": "WA tax attorney \u2014 consult before move",
+        "status": "urgent"
+      },
+      {
+        "text": "Home rental prep \u2014 property manager",
+        "status": "pending"
+      },
+      {
+        "text": "Amazon internal transfer \u2014 in progress",
+        "status": "pending"
+      },
+      {
+        "text": "Debt elimination ($271K)",
+        "status": "pending"
+      }
+    ]
+  }
+}
