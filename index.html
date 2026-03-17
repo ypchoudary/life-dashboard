@@ -8,6 +8,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f0f; color: #e0e0e0; }
 
+/* Auth Screen */
 #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
 #auth-box { background: #1a1a1a; padding: 40px; border-radius: 12px; border: 1px solid #2a2a2a; text-align: center; max-width: 360px; width: 100%; }
 #auth-box h2 { margin-bottom: 8px; font-size: 20px; }
@@ -15,9 +16,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-
 #auth-box button { width: 100%; padding: 12px; background: #4ade80; color: #000; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
 #auth-error { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
 
+/* App */
 #app { display: none; min-height: 100vh; }
 .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 
+/* Navigation */
 nav { background: #1a1a1a; padding: 16px 0; margin-bottom: 24px; border-bottom: 1px solid #2a2a2a; }
 nav .container { display: flex; gap: 24px; align-items: center; }
 nav .logo { font-size: 18px; font-weight: 700; margin-right: auto; }
@@ -25,9 +28,11 @@ nav a { color: #666; text-decoration: none; font-size: 14px; font-weight: 500; t
 nav a:hover { color: #999; }
 nav a.active { color: #4ade80; }
 
+/* Pages */
 .page { display: none; }
 .page.active { display: block; }
 
+/* Summary Cards */
 .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
 .summary-card { background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a; }
 .summary-card h3 { font-size: 14px; color: #666; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -37,9 +42,8 @@ nav a.active { color: #4ade80; }
 .trend-down { color: #f87171; }
 .trend-neutral { color: #666; }
 .summary-subtitle { color: #666; font-size: 13px; margin-top: 4px; }
-.mini-sparkline { display: flex; gap: 2px; height: 24px; align-items: flex-end; margin-top: 8px; }
-.spark-bar { width: 8px; background: #333; border-radius: 2px 2px 0 0; }
 
+/* Detail Cards */
 .detail-section { margin-bottom: 32px; }
 .detail-section h2 { font-size: 20px; margin-bottom: 16px; color: #e0e0e0; }
 .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
@@ -48,30 +52,46 @@ nav a.active { color: #4ade80; }
 .metric-value { font-size: 28px; font-weight: 700; }
 .metric-target { font-size: 11px; color: #666; margin-top: 4px; }
 
-.chart-container { background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a; margin-bottom: 24px; position: relative; }
-.chart { height: 200px; display: flex; align-items: flex-end; gap: 4px; margin-top: 16px; position: relative; }
-.chart-bar { flex: 1; background: #333; border-radius: 4px 4px 0 0; transition: background 0.2s; cursor: pointer; position: relative; }
+/* Chart */
+.chart-container { background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a; margin-bottom: 24px; }
+.chart { height: 200px; display: flex; align-items: flex-end; gap: 4px; margin-top: 16px; }
+.chart-bar { flex: 1; background: #333; border-radius: 4px 4px 0 0; position: relative; transition: background 0.2s; }
 .chart-bar:hover { background: #4ade80; }
+.chart-bar-label { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #666; white-space: nowrap; }
 
-.tooltip { position: absolute; background: #1a1a1a; border: 1px solid #4ade80; border-radius: 6px; padding: 8px 12px; font-size: 12px; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 1000; white-space: nowrap; }
-.tooltip.visible { opacity: 1; }
-
+/* Table */
 .data-table { width: 100%; background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #2a2a2a; }
 .data-table thead { background: #111; }
 .data-table th { padding: 12px; text-align: left; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 .data-table td { padding: 12px; border-top: 1px solid #222; font-size: 13px; }
+.data-table tr:hover { background: #1a1a1a; }
 
+/* Status Badges */
+.status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
+.status-good { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
+.status-warn { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+.status-bad { background: rgba(248, 113, 113, 0.15); color: #f87171; }
+
+/* Progress Bar */
 .progress-bar { height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin-top: 8px; }
 .progress-fill { height: 100%; background: linear-gradient(90deg, #4ade80, #22d3ee); transition: width 0.3s; }
 
+/* Responsive */
 @media (max-width: 900px) {
   .summary-grid { grid-template-columns: 1fr; }
   .metrics-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Tooltip */
+.tooltip { position: absolute; background: #1a1a1a; border: 1px solid #4ade80; border-radius: 6px; padding: 8px 12px; font-size: 12px; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 1000; white-space: nowrap; }
+.tooltip.visible { opacity: 1; }
+.mini-sparkline { display: flex; gap: 2px; height: 24px; align-items: flex-end; margin-top: 8px; }
+.spark-bar { width: 8px; background: #333; border-radius: 2px 2px 0 0; }
 </style>
 </head>
 <body>
 
+<!-- Auth Screen -->
 <div id="auth-screen">
   <div id="auth-box">
     <h2>🔥 NateClaw</h2>
@@ -82,6 +102,7 @@ nav a.active { color: #4ade80; }
   </div>
 </div>
 
+<!-- App -->
 <div id="app">
   <nav>
     <div class="container">
@@ -94,8 +115,10 @@ nav a.active { color: #4ade80; }
   </nav>
 
   <div class="container">
+    <!-- Summary Page -->
     <div id="page-summary" class="page active">
       <h1 style="font-size: 32px; margin-bottom: 32px;">Dashboard Summary</h1>
+      
       <div class="summary-grid">
         <div class="summary-card">
           <h3>🏃 Health</h3>
@@ -104,12 +127,14 @@ nav a.active { color: #4ade80; }
           <div class="summary-trend" id="health-summary-trend"></div>
           <div class="mini-sparkline" id="health-sparkline"></div>
         </div>
+        
         <div class="summary-card">
           <h3>👨‍👩‍👧‍👧 Family</h3>
           <div class="summary-value" id="family-summary-value">—</div>
           <div class="summary-subtitle">Overall Score</div>
           <div class="summary-trend" id="family-summary-trend"></div>
         </div>
+        
         <div class="summary-card">
           <h3>💰 Wealth</h3>
           <div class="summary-value" id="wealth-summary-value">—</div>
@@ -119,8 +144,10 @@ nav a.active { color: #4ade80; }
       </div>
     </div>
 
+    <!-- Health Page -->
     <div id="page-health" class="page">
       <h1 style="font-size: 32px; margin-bottom: 32px;">🏃 Health Details</h1>
+      
       <div class="detail-section">
         <h2>Current Metrics</h2>
         <div class="metrics-grid">
@@ -137,7 +164,7 @@ nav a.active { color: #4ade80; }
           <div class="metric-box">
             <div class="metric-label">Resting HR</div>
             <div class="metric-value" id="health-rhr">—</div>
-            <div class="metric-target">Target: <65 bpm</div>
+            <div class="metric-target">Target: &lt;65 bpm</div>
           </div>
           <div class="metric-box">
             <div class="metric-label">SpO2</div>
@@ -146,6 +173,7 @@ nav a.active { color: #4ade80; }
           </div>
         </div>
       </div>
+
       <div class="detail-section">
         <div class="chart-container">
           <h2>7-Day Recovery Trend</h2>
@@ -153,6 +181,7 @@ nav a.active { color: #4ade80; }
           <div class="tooltip" id="recovery-tooltip"></div>
         </div>
       </div>
+
       <div class="detail-section">
         <div class="chart-container">
           <h2>7-Day HRV Trend</h2>
@@ -162,8 +191,10 @@ nav a.active { color: #4ade80; }
       </div>
     </div>
 
+    <!-- Family Page -->
     <div id="page-family" class="page">
       <h1 style="font-size: 32px; margin-bottom: 32px;">👨‍👩‍👧‍👧 Family Details</h1>
+      
       <div class="detail-section">
         <h2>Weekly Scores</h2>
         <div class="metrics-grid">
@@ -189,6 +220,7 @@ nav a.active { color: #4ade80; }
           </div>
         </div>
       </div>
+
       <div class="detail-section">
         <div style="background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a;">
           <h2>Quality Time</h2>
@@ -197,8 +229,10 @@ nav a.active { color: #4ade80; }
       </div>
     </div>
 
+    <!-- Wealth Page -->
     <div id="page-wealth" class="page">
       <h1 style="font-size: 32px; margin-bottom: 32px;">💰 Wealth Details</h1>
+      
       <div class="detail-section">
         <h2>Net Worth Progress</h2>
         <div class="metrics-grid">
@@ -223,6 +257,7 @@ nav a.active { color: #4ade80; }
           <div class="progress-fill" id="wealth-progress-bar"></div>
         </div>
       </div>
+
       <div class="detail-section">
         <div class="chart-container">
           <h2>Net Worth History (15 Months)</h2>
@@ -230,20 +265,30 @@ nav a.active { color: #4ade80; }
           <div class="tooltip" id="wealth-tooltip"></div>
         </div>
       </div>
+
       <div class="detail-section">
         <h2>Assets by Category</h2>
         <table class="data-table">
           <thead>
-            <tr><th>Category</th><th>Value</th><th>% of Total</th></tr>
+            <tr>
+              <th>Category</th>
+              <th>Value</th>
+              <th>% of Total</th>
+            </tr>
           </thead>
           <tbody id="wealth-categories-table"></tbody>
         </table>
       </div>
+
       <div class="detail-section" style="margin-top: 24px;">
         <h2>Liabilities</h2>
         <table class="data-table">
           <thead>
-            <tr><th>Account</th><th>Balance</th><th>Rate</th></tr>
+            <tr>
+              <th>Account</th>
+              <th>Balance</th>
+              <th>Rate</th>
+            </tr>
           </thead>
           <tbody id="wealth-liabilities-table"></tbody>
         </table>
@@ -258,8 +303,10 @@ const PASSWORD_HASH = 'e58c7fae7d38b293d68db4fe3d4401d31e2a588748e10f52f3a207855
 
 async function hashPassword(password) {
   const encoder = new TextEncoder();
-  const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(password));
-  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 async function authenticate() {
@@ -279,19 +326,23 @@ document.getElementById('password-input').addEventListener('keypress', (e) => {
 });
 
 async function loadData() {
-  const response = await fetch('data.json');
-  data = await response.json();
-  renderSummary();
-  renderHealth();
-  renderFamily();
-  renderWealth();
+  try {
+    const response = await fetch('data.json');
+    data = await response.json();
+    renderSummary();
+    renderHealth();
+    renderFamily();
+    renderWealth();
+  } catch (error) {
+    console.error('Failed to load data:', error);
+  }
 }
 
 function navigate(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  document.getElementById(\`page-\${page}\`).classList.add('active');
-  document.querySelector(\`[onclick="navigate('\${page}')"]\`).classList.add('active');
+  document.getElementById(`page-${page}`).classList.add('active');
+  document.querySelector(`[onclick="navigate('${page}')"]`).classList.add('active');
 }
 
 function renderSummary() {
@@ -302,9 +353,10 @@ function renderSummary() {
   
   document.getElementById('health-summary-value').textContent = latest.toFixed(0) + '%';
   document.getElementById('health-summary-value').className = 'summary-value ' + getHealthColor(recovery);
-  document.getElementById('health-summary-trend').innerHTML = \`<span class="\${trend >= 0 ? 'trend-up' : 'trend-down'}">\${trend >= 0 ? '↑' : '↓'} \${Math.abs(trend)}%</span> <span style="color: #666">vs 7-day avg</span>\`;
+  document.getElementById('health-summary-trend').innerHTML = '<span class="' + (trend >= 0 ? 'trend-up' : 'trend-down') + '">' + (trend >= 0 ? '↑' : '↓') + ' ' + Math.abs(trend) + '%</span> <span style="color: #666">vs 7-day avg</span>';
   
   const sparkline = document.getElementById('health-sparkline');
+  sparkline.innerHTML = '';
   const max = Math.max(...h.daily.map(d => d.recovery));
   h.daily.forEach(d => {
     const bar = document.createElement('div');
@@ -320,26 +372,32 @@ function renderSummary() {
   
   const w = data.wealth;
   document.getElementById('wealth-summary-value').textContent = w.net_worth;
-  document.getElementById('wealth-summary-subtitle').textContent = \`\${w.progress_pct}% of $8.4M goal\`;
+  document.getElementById('wealth-summary-subtitle').textContent = w.progress_pct + '% of $8.4M goal';
   const lastMonth = w.monthly[w.monthly.length - 2];
   const currentMonth = w.monthly[w.monthly.length - 1];
   const wealthChange = ((currentMonth.value - lastMonth.value) / 1000).toFixed(0);
-  document.getElementById('wealth-summary-trend').innerHTML = \`<span class="trend-\${wealthChange >= 0 ? 'up' : 'down'}">\${wealthChange >= 0 ? '↑' : '↓'} $\${Math.abs(wealthChange)}K</span> <span style="color: #666">this month</span>\`;
+  document.getElementById('wealth-summary-trend').innerHTML = '<span class="trend-' + (wealthChange >= 0 ? 'up' : 'down') + '">' + (wealthChange >= 0 ? '↑' : '↓') + ' $' + Math.abs(wealthChange) + 'K</span> <span style="color: #666">this month</span>';
 }
 
 function renderHealth() {
   const h = data.health;
   document.getElementById('health-recovery').textContent = h.averages.recovery.toFixed(0) + '%';
   document.getElementById('health-recovery').className = 'metric-value ' + getHealthColor(h.averages.recovery);
+  
   document.getElementById('health-hrv').textContent = h.averages.hrv.toFixed(1);
   document.getElementById('health-hrv').className = 'metric-value ' + getHealthColor(h.averages.hrv, 30);
+  
   document.getElementById('health-rhr').textContent = h.averages.rhr.toFixed(0);
   document.getElementById('health-rhr').className = 'metric-value ' + (h.averages.rhr < 65 ? 'trend-up' : 'trend-down');
+  
   document.getElementById('health-spo2').textContent = h.averages.spo2.toFixed(1) + '%';
   document.getElementById('health-spo2').className = 'metric-value ' + (h.averages.spo2 >= 95 ? 'trend-up' : 'trend-down');
   
-  renderChartWithTooltip('health-recovery-chart', 'recovery-tooltip', h.daily.map(d => d.recovery), 100, '%');
-  renderChartWithTooltip('health-hrv-chart', 'hrv-tooltip', h.daily.map(d => d.hrv), 50, 'ms');
+  // Recovery chart
+  renderChart('health-recovery-chart', h.daily.map(d => d.recovery), 100, 'recovery-tooltip', '%');
+  
+  // HRV chart
+  renderChart('health-hrv-chart', h.daily.map(d => d.hrv), 50, 'hrv-tooltip', 'ms');
 }
 
 function renderFamily() {
@@ -356,32 +414,45 @@ function renderWealth() {
   document.getElementById('wealth-current').textContent = w.net_worth;
   document.getElementById('wealth-target').textContent = w.target;
   document.getElementById('wealth-progress').textContent = w.progress_pct.toFixed(1) + '%';
+  
   const remaining = (w.target_raw - w.net_worth_raw) / 1000000;
   document.getElementById('wealth-remaining').textContent = '$' + remaining.toFixed(2) + 'M';
+  
   document.getElementById('wealth-progress-bar').style.width = w.progress_pct + '%';
   
-  renderChartWithTooltip('wealth-history-chart', 'wealth-tooltip', w.monthly.map(m => m.value), w.target_raw, '', w.monthly.map(m => m.month));
+  // History chart
+  renderChart('wealth-history-chart', w.monthly.map(m => m.value), w.target_raw, 'wealth-tooltip');
   
+  // Categories table
   let catHTML = '';
   const totalAssets = w.total_assets;
   for (const [cat, value] of Object.entries(w.categories)) {
     const pct = ((value / totalAssets) * 100).toFixed(1);
-    catHTML += \`<tr><td>\${cat}</td><td>$\${(value / 1000000).toFixed(2)}M</td><td>\${pct}%</td></tr>\`;
+    catHTML += `<tr>
+      <td>${cat}</td>
+      <td>$${(value / 1000000).toFixed(2)}M</td>
+      <td>${pct}%</td>
+    </tr>`;
   }
   document.getElementById('wealth-categories-table').innerHTML = catHTML;
   
+  // Liabilities table
   let liabHTML = '';
   for (const liab of w.liabilities) {
-    liabHTML += \`<tr><td>\${liab.name}</td><td>$\${(liab.value / 1000).toFixed(0)}K</td><td>\${liab.rate}</td></tr>\`;
+    liabHTML += `<tr>
+      <td>${liab.name}</td>
+      <td>$${(liab.value / 1000).toFixed(0)}K</td>
+      <td>${liab.rate}</td>
+    </tr>`;
   }
   document.getElementById('wealth-liabilities-table').innerHTML = liabHTML;
 }
 
-function renderChartWithTooltip(containerId, tooltipId, values, max, suffix = '', labels = []) {
+function renderChart(containerId, values, max, tooltipId, suffix) {
   const container = document.getElementById(containerId);
-  const tooltip = document.getElementById(tooltipId);
   container.innerHTML = '';
   const maxVal = Math.max(...values, max || 0);
+  const tooltip = tooltipId ? document.getElementById(tooltipId) : null;
   
   values.forEach((val, i) => {
     const bar = document.createElement('div');
@@ -390,33 +461,32 @@ function renderChartWithTooltip(containerId, tooltipId, values, max, suffix = ''
     bar.style.height = height + '%';
     bar.style.background = getHealthColor(val, max / 2);
     
-    bar.addEventListener('mouseenter', (e) => showTooltip(tooltip, val, suffix, labels[i], e));
-    bar.addEventListener('mousemove', (e) => moveTooltip(tooltip, e));
-    bar.addEventListener('mouseleave', () => hideTooltip(tooltip));
-    bar.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      showTooltip(tooltip, val, suffix, labels[i], e.touches[0]);
-    });
-    bar.addEventListener('touchend', () => hideTooltip(tooltip));
+    if (tooltip) {
+      bar.addEventListener('mouseenter', (e) => {
+        const formatted = val > 1000 ? '$' + (val/1000000).toFixed(2) + 'M' : val.toFixed(1) + (suffix || '');
+        tooltip.textContent = formatted;
+        tooltip.classList.add('visible');
+        tooltip.style.left = (e.clientX + 10) + 'px';
+        tooltip.style.top = (e.clientY - 30) + 'px';
+      });
+      bar.addEventListener('mousemove', (e) => {
+        tooltip.style.left = (e.clientX + 10) + 'px';
+        tooltip.style.top = (e.clientY - 30) + 'px';
+      });
+      bar.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+      bar.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        const formatted = val > 1000 ? '$' + (val/1000000).toFixed(2) + 'M' : val.toFixed(1) + (suffix || '');
+        tooltip.textContent = formatted;
+        tooltip.classList.add('visible');
+        tooltip.style.left = (e.touches[0].clientX + 10) + 'px';
+        tooltip.style.top = (e.touches[0].clientY - 30) + 'px';
+      });
+      bar.addEventListener('touchend', () => tooltip.classList.remove('visible'));
+    }
     
     container.appendChild(bar);
   });
-}
-
-function showTooltip(tooltip, value, suffix, label, event) {
-  const formatted = typeof value === 'number' && value > 1000 ? \`$\${(value/1000000).toFixed(2)}M\` : value.toFixed(1) + suffix;
-  tooltip.textContent = label ? \`\${label}: \${formatted}\` : formatted;
-  tooltip.classList.add('visible');
-  moveTooltip(tooltip, event);
-}
-
-function moveTooltip(tooltip, event) {
-  tooltip.style.left = (event.clientX + 10) + 'px';
-  tooltip.style.top = (event.clientY - 30) + 'px';
-}
-
-function hideTooltip(tooltip) {
-  tooltip.classList.remove('visible');
 }
 
 function getHealthColor(value, target = 65) {
@@ -425,5 +495,6 @@ function getHealthColor(value, target = 65) {
   return 'trend-down';
 }
 </script>
+
 </body>
 </html>
