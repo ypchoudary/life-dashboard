@@ -7,494 +7,124 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f0f; color: #e0e0e0; }
-
-/* Auth Screen */
 #auth-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
 #auth-box { background: #1a1a1a; padding: 40px; border-radius: 12px; border: 1px solid #2a2a2a; text-align: center; max-width: 360px; width: 100%; }
 #auth-box h2 { margin-bottom: 8px; font-size: 20px; }
 #auth-box input { width: 100%; padding: 12px; background: #111; border: 1px solid #333; border-radius: 8px; color: #fff; font-size: 14px; margin: 12px 0; text-align: center; }
 #auth-box button { width: 100%; padding: 12px; background: #4ade80; color: #000; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
 #auth-error { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
-
-/* App */
-#app { display: none; min-height: 100vh; }
-.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-
-/* Navigation */
-nav { background: #1a1a1a; padding: 16px 0; margin-bottom: 24px; border-bottom: 1px solid #2a2a2a; }
-nav .container { display: flex; gap: 24px; align-items: center; }
-nav .logo { font-size: 18px; font-weight: 700; margin-right: auto; }
-nav a { color: #666; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-nav a:hover { color: #999; }
-nav a.active { color: #4ade80; }
-
-/* Pages */
-.page { display: none; }
-.page.active { display: block; }
-
-/* Summary Cards */
-.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
-.summary-card { background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a; }
-.summary-card h3 { font-size: 14px; color: #666; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
-.summary-value { font-size: 42px; font-weight: 800; margin: 12px 0; }
-.summary-trend { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-top: 8px; }
-.trend-up { color: #4ade80; }
-.trend-down { color: #f87171; }
-.trend-neutral { color: #666; }
-.summary-subtitle { color: #666; font-size: 13px; margin-top: 4px; }
-
-/* Detail Cards */
-.detail-section { margin-bottom: 32px; }
-.detail-section h2 { font-size: 20px; margin-bottom: 16px; color: #e0e0e0; }
-.metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
-.metric-box { background: #1a1a1a; border-radius: 8px; padding: 16px; border: 1px solid #2a2a2a; }
-.metric-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-.metric-value { font-size: 28px; font-weight: 700; }
-.metric-target { font-size: 11px; color: #666; margin-top: 4px; }
-
-/* Chart */
-.chart-container { background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a; margin-bottom: 24px; }
-.chart { height: 200px; display: flex; align-items: flex-end; gap: 4px; margin-top: 16px; }
-.chart-bar { flex: 1; background: #333; border-radius: 4px 4px 0 0; position: relative; transition: background 0.2s; }
-.chart-bar:hover { background: #4ade80; }
-.chart-bar-label { position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: #666; white-space: nowrap; }
-
-/* Table */
-.data-table { width: 100%; background: #1a1a1a; border-radius: 12px; overflow: hidden; border: 1px solid #2a2a2a; }
-.data-table thead { background: #111; }
-.data-table th { padding: 12px; text-align: left; font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
-.data-table td { padding: 12px; border-top: 1px solid #222; font-size: 13px; }
-.data-table tr:hover { background: #1a1a1a; }
-
-/* Status Badges */
-.status-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; }
-.status-good { background: rgba(74, 222, 128, 0.15); color: #4ade80; }
-.status-warn { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
-.status-bad { background: rgba(248, 113, 113, 0.15); color: #f87171; }
-
-/* Progress Bar */
-.progress-bar { height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin-top: 8px; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, #4ade80, #22d3ee); transition: width 0.3s; }
-
-/* Responsive */
-@media (max-width: 900px) {
-  .summary-grid { grid-template-columns: 1fr; }
-  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* Tooltip */
-.tooltip { position: absolute; background: #1a1a1a; border: 1px solid #4ade80; border-radius: 6px; padding: 8px 12px; font-size: 12px; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 1000; white-space: nowrap; }
-.tooltip.visible { opacity: 1; }
-.mini-sparkline { display: flex; gap: 2px; height: 24px; align-items: flex-end; margin-top: 8px; }
-.spark-bar { width: 8px; background: #333; border-radius: 2px 2px 0 0; }
+#app { display: none; min-height: 100vh; padding: 20px; }
+nav { background: #1a1a1a; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 16px; }
+nav a { color: #999; text-decoration: none; font-size: 14px; }
+nav a.active { color: #4ade80; font-weight: 600; }
+.container { max-width: 1400px; margin: 0 auto; }
+h1 { text-align: center; margin-bottom: 8px; font-size: 28px; }
+.subtitle { text-align: center; color: #666; margin-bottom: 32px; font-size: 13px; }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card { background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a; }
+.card-header { font-size: 16px; color: #999; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.big-number { font-size: 48px; font-weight: 800; text-align: center; margin: 20px 0; }
+.status-good { color: #4ade80; }
+.status-warn { color: #fbbf24; }
+.status-bad { color: #f87171; }
+.sparkline { height: 40px; display: flex; align-items: flex-end; gap: 2px; margin: 16px 0; }
+.spark-bar { flex: 1; background: #333; border-radius: 2px 2px 0 0; }
+.quick-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
+.stat { background: #111; padding: 12px; border-radius: 6px; text-align: center; }
+.stat-label { font-size: 10px; color: #666; margin-bottom: 4px; }
+.stat-value { font-size: 18px; font-weight: 700; }
+.stat-arrow { font-size: 10px; margin-left: 4px; }
+.link-btn { display: block; text-align: center; margin-top: 16px; padding: 8px; background: #222; border-radius: 6px; color: #4ade80; text-decoration: none; font-size: 13px; }
+.progress-bar { height: 8px; background: #222; border-radius: 4px; margin: 12px 0; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #4ade80, #22d3ee); }
+.score-circles { display: flex; gap: 16px; justify-content: center; margin: 20px 0; }
+.circle { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #333; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.circle-num { font-size: 28px; font-weight: 700; }
+.circle-label { font-size: 9px; color: #666; text-transform: uppercase; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-
-<!-- Auth Screen -->
 <div id="auth-screen">
-  <div id="auth-box">
-    <h2>🔥 NateClaw</h2>
-    <p style="color: #666; font-size: 13px; margin-bottom: 20px;">Life Dashboard</p>
-    <input type="password" id="password-input" placeholder="Enter password" />
-    <button onclick="authenticate()">Unlock</button>
-    <div id="auth-error">Incorrect password</div>
-  </div>
+<div id="auth-box">
+<h2>🔥 NateClaw</h2>
+<p>Life Dashboard</p>
+<input type="password" id="pw" placeholder="Password" autofocus>
+<button onclick="auth()">Unlock</button>
+<div id="auth-error">Wrong password</div>
 </div>
-
-<!-- App -->
+</div>
 <div id="app">
-  <nav>
-    <div class="container">
-      <div class="logo">🔥 NateClaw</div>
-      <a href="#summary" class="nav-link active" onclick="navigate('summary')">Summary</a>
-      <a href="#health" class="nav-link" onclick="navigate('health')">Health</a>
-      <a href="#family" class="nav-link" onclick="navigate('family')">Family</a>
-      <a href="#wealth" class="nav-link" onclick="navigate('wealth')">Wealth</a>
-    </div>
-  </nav>
-
-  <div class="container">
-    <!-- Summary Page -->
-    <div id="page-summary" class="page active">
-      <h1 style="font-size: 32px; margin-bottom: 32px;">Dashboard Summary</h1>
-      
-      <div class="summary-grid">
-        <div class="summary-card">
-          <h3>🏃 Health</h3>
-          <div class="summary-value" id="health-summary-value">—</div>
-          <div class="summary-subtitle" id="health-summary-subtitle">Recovery Score</div>
-          <div class="summary-trend" id="health-summary-trend"></div>
-          <div class="mini-sparkline" id="health-sparkline"></div>
-        </div>
-        
-        <div class="summary-card">
-          <h3>👨‍👩‍👧‍👧 Family</h3>
-          <div class="summary-value" id="family-summary-value">—</div>
-          <div class="summary-subtitle">Overall Score</div>
-          <div class="summary-trend" id="family-summary-trend"></div>
-        </div>
-        
-        <div class="summary-card">
-          <h3>💰 Wealth</h3>
-          <div class="summary-value" id="wealth-summary-value">—</div>
-          <div class="summary-subtitle" id="wealth-summary-subtitle">Net Worth</div>
-          <div class="summary-trend" id="wealth-summary-trend"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Health Page -->
-    <div id="page-health" class="page">
-      <h1 style="font-size: 32px; margin-bottom: 32px;">🏃 Health Details</h1>
-      
-      <div class="detail-section">
-        <h2>Current Metrics</h2>
-        <div class="metrics-grid">
-          <div class="metric-box">
-            <div class="metric-label">Recovery</div>
-            <div class="metric-value" id="health-recovery">—</div>
-            <div class="metric-target">Target: 65%+</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">HRV</div>
-            <div class="metric-value" id="health-hrv">—</div>
-            <div class="metric-target">Target: 30-50ms</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Resting HR</div>
-            <div class="metric-value" id="health-rhr">—</div>
-            <div class="metric-target">Target: &lt;65 bpm</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">SpO2</div>
-            <div class="metric-value" id="health-spo2">—</div>
-            <div class="metric-target">Target: 95%+</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <div class="chart-container">
-          <h2>7-Day Recovery Trend</h2>
-          <div class="chart" id="health-recovery-chart"></div>
-          <div class="tooltip" id="recovery-tooltip"></div>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <div class="chart-container">
-          <h2>7-Day HRV Trend</h2>
-          <div class="chart" id="health-hrv-chart"></div>
-          <div class="tooltip" id="hrv-tooltip"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Family Page -->
-    <div id="page-family" class="page">
-      <h1 style="font-size: 32px; margin-bottom: 32px;">👨‍👩‍👧‍👧 Family Details</h1>
-      
-      <div class="detail-section">
-        <h2>Weekly Scores</h2>
-        <div class="metrics-grid">
-          <div class="metric-box">
-            <div class="metric-label">Wife Connection</div>
-            <div class="metric-value" id="family-wife-score">—</div>
-            <div class="metric-target">Self-rated 1-10</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Kids Presence</div>
-            <div class="metric-value" id="family-kids-score">—</div>
-            <div class="metric-target">Self-rated 1-10</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Overall</div>
-            <div class="metric-value" id="family-overall-score">—</div>
-            <div class="metric-target">Average</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Gratitude Streak</div>
-            <div class="metric-value" id="family-gratitude-streak">—</div>
-            <div class="metric-target">Days</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <div style="background: #1a1a1a; border-radius: 12px; padding: 24px; border: 1px solid #2a2a2a;">
-          <h2>Quality Time</h2>
-          <p id="family-quality-time" style="color: #666; font-size: 14px; margin-top: 12px;">Not tracked yet</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Wealth Page -->
-    <div id="page-wealth" class="page">
-      <h1 style="font-size: 32px; margin-bottom: 32px;">💰 Wealth Details</h1>
-      
-      <div class="detail-section">
-        <h2>Net Worth Progress</h2>
-        <div class="metrics-grid">
-          <div class="metric-box">
-            <div class="metric-label">Current</div>
-            <div class="metric-value" id="wealth-current">—</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Target</div>
-            <div class="metric-value" id="wealth-target">—</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Progress</div>
-            <div class="metric-value" id="wealth-progress">—</div>
-          </div>
-          <div class="metric-box">
-            <div class="metric-label">Remaining</div>
-            <div class="metric-value" id="wealth-remaining">—</div>
-          </div>
-        </div>
-        <div class="progress-bar" style="height: 12px; margin-top: 16px;">
-          <div class="progress-fill" id="wealth-progress-bar"></div>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <div class="chart-container">
-          <h2>Net Worth History (15 Months)</h2>
-          <div class="chart" id="wealth-history-chart"></div>
-          <div class="tooltip" id="wealth-tooltip"></div>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <h2>Assets by Category</h2>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Value</th>
-              <th>% of Total</th>
-            </tr>
-          </thead>
-          <tbody id="wealth-categories-table"></tbody>
-        </table>
-      </div>
-
-      <div class="detail-section" style="margin-top: 24px;">
-        <h2>Liabilities</h2>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Account</th>
-              <th>Balance</th>
-              <th>Rate</th>
-            </tr>
-          </thead>
-          <tbody id="wealth-liabilities-table"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<nav>
+<a href="#" id="nav-summary">Summary</a>
+<a href="#health" id="nav-health">Health</a>
+<a href="#family" id="nav-family">Family</a>
+<a href="#wealth" id="nav-wealth">Wealth</a>
+</nav>
+<div class="container">
+<div id="summary-view">
+<h1>🔥 Life Dashboard</h1>
+<p class="subtitle">Health &gt; Family &gt; Wealth</p>
+<div class="grid">
+<div class="card">
+<div class="card-header">🏥 Health</div>
+<div class="big-number" id="h-recovery">—</div>
+<div class="sparkline" id="h-sparkline"></div>
+<div class="quick-stats">
+<div class="stat"><div class="stat-label">HRV</div><div class="stat-value" id="h-hrv">—</div></div>
+<div class="stat"><div class="stat-label">RHR</div><div class="stat-value" id="h-rhr">—</div></div>
+<div class="stat"><div class="stat-label">Sleep</div><div class="stat-value" id="h-sleep">—</div></div>
+<div class="stat"><div class="stat-label">SpO2</div><div class="stat-value" id="h-spo2">—</div></div>
 </div>
-
+<a href="#health" class="link-btn">View Details →</a>
+</div>
+<div class="card">
+<div class="card-header">👨‍👩‍👧‍👧 Family</div>
+<div class="score-circles">
+<div class="circle"><span class="circle-num" id="f-wife">—</span><span class="circle-label">Wife</span></div>
+<div class="circle"><span class="circle-num" id="f-kids">—</span><span class="circle-label">Kids</span></div>
+<div class="circle"><span class="circle-num" id="f-overall">—</span><span class="circle-label">Overall</span></div>
+</div>
+<div style="text-align:center;color:#666;font-size:13px;" id="f-status">Next check-in: Sunday</div>
+<a href="#family" class="link-btn">View Details →</a>
+</div>
+<div class="card">
+<div class="card-header">💰 Wealth</div>
+<div class="big-number" id="w-nw">$4.2M</div>
+<div class="progress-bar"><div class="progress-fill" id="w-progress"></div></div>
+<div style="text-align:center;color:#666;font-size:12px;margin-bottom:16px;" id="w-pct">50% of $8.4M goal</div>
+<div class="sparkline" id="w-sparkline"></div>
+<a href="#wealth" class="link-btn">View Details →</a>
+</div>
+</div>
+</div>
+<div id="health-view" style="display:none">
+<a href="#" style="color:#4ade80;text-decoration:none;font-size:14px;">← Back</a>
+<h1 style="margin-top:20px;">🏥 Health Details</h1>
+<div style="color:#666;text-align:center;margin:20px 0;">Coming soon - full metrics breakdown</div>
+</div>
+<div id="family-view" style="display:none">
+<a href="#" style="color:#4ade80;text-decoration:none;font-size:14px;">← Back</a>
+<h1 style="margin-top:20px;">👨‍👩‍👧‍👧 Family Details</h1>
+<div style="color:#666;text-align:center;margin:20px 0;">Coming soon - weekly tracking</div>
+</div>
+<div id="wealth-view" style="display:none">
+<a href="#" style="color:#4ade80;text-decoration:none;font-size:14px;">← Back</a>
+<h1 style="margin-top:20px;">💰 Wealth Details</h1>
+<div style="color:#666;text-align:center;margin:20px 0;">Coming soon - full breakdown</div>
+</div>
+</div>
+</div>
 <script>
-let data = null;
-const PASSWORD_HASH = 'e58c7fae7d38b293d68db4fe3d4401d31e2a588748e10f52f3a20785582dda88';
-
-async function hashPassword(password) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(password);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-async function authenticate() {
-  const input = document.getElementById('password-input');
-  const hash = await hashPassword(input.value);
-  if (hash === PASSWORD_HASH) {
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    await loadData();
-  } else {
-    document.getElementById('auth-error').style.display = 'block';
-  }
-}
-
-document.getElementById('password-input').addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') authenticate();
-});
-
-async function loadData() {
-  try {
-    const response = await fetch('data.json');
-    data = await response.json();
-    renderSummary();
-    renderHealth();
-    renderFamily();
-    renderWealth();
-  } catch (error) {
-    console.error('Failed to load data:', error);
-  }
-}
-
-function navigate(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  document.getElementById(`page-${page}`).classList.add('active');
-  document.querySelector(`[onclick="navigate('${page}')"]`).classList.add('active');
-}
-
-function renderSummary() {
-  const h = data.health;
-  const recovery = h.averages.recovery;
-  const latest = h.latest.recovery;
-  const trend = ((latest - recovery) / recovery * 100).toFixed(1);
-  
-  document.getElementById('health-summary-value').textContent = latest.toFixed(0) + '%';
-  document.getElementById('health-summary-value').className = 'summary-value ' + getHealthColor(recovery);
-  document.getElementById('health-summary-trend').innerHTML = '<span class="' + (trend >= 0 ? 'trend-up' : 'trend-down') + '">' + (trend >= 0 ? '↑' : '↓') + ' ' + Math.abs(trend) + '%</span> <span style="color: #666">vs 7-day avg</span>';
-  
-  const sparkline = document.getElementById('health-sparkline');
-  sparkline.innerHTML = '';
-  const max = Math.max(...h.daily.map(d => d.recovery));
-  h.daily.forEach(d => {
-    const bar = document.createElement('div');
-    bar.className = 'spark-bar';
-    bar.style.height = (d.recovery / max * 100) + '%';
-    bar.style.background = getHealthColor(d.recovery);
-    sparkline.appendChild(bar);
-  });
-  
-  const familyScore = data.family.overall_score;
-  document.getElementById('family-summary-value').textContent = familyScore || 'Not tracked';
-  if (!familyScore) document.getElementById('family-summary-value').style.fontSize = '24px';
-  
-  const w = data.wealth;
-  document.getElementById('wealth-summary-value').textContent = w.net_worth;
-  document.getElementById('wealth-summary-subtitle').textContent = w.progress_pct + '% of $8.4M goal';
-  const lastMonth = w.monthly[w.monthly.length - 2];
-  const currentMonth = w.monthly[w.monthly.length - 1];
-  const wealthChange = ((currentMonth.value - lastMonth.value) / 1000).toFixed(0);
-  document.getElementById('wealth-summary-trend').innerHTML = '<span class="trend-' + (wealthChange >= 0 ? 'up' : 'down') + '">' + (wealthChange >= 0 ? '↑' : '↓') + ' $' + Math.abs(wealthChange) + 'K</span> <span style="color: #666">this month</span>';
-}
-
-function renderHealth() {
-  const h = data.health;
-  document.getElementById('health-recovery').textContent = h.averages.recovery.toFixed(0) + '%';
-  document.getElementById('health-recovery').className = 'metric-value ' + getHealthColor(h.averages.recovery);
-  
-  document.getElementById('health-hrv').textContent = h.averages.hrv.toFixed(1);
-  document.getElementById('health-hrv').className = 'metric-value ' + getHealthColor(h.averages.hrv, 30);
-  
-  document.getElementById('health-rhr').textContent = h.averages.rhr.toFixed(0);
-  document.getElementById('health-rhr').className = 'metric-value ' + (h.averages.rhr < 65 ? 'trend-up' : 'trend-down');
-  
-  document.getElementById('health-spo2').textContent = h.averages.spo2.toFixed(1) + '%';
-  document.getElementById('health-spo2').className = 'metric-value ' + (h.averages.spo2 >= 95 ? 'trend-up' : 'trend-down');
-  
-  // Recovery chart
-  renderChart('health-recovery-chart', h.daily.map(d => d.recovery), 100, 'recovery-tooltip', '%');
-  
-  // HRV chart
-  renderChart('health-hrv-chart', h.daily.map(d => d.hrv), 50, 'hrv-tooltip', 'ms');
-}
-
-function renderFamily() {
-  const f = data.family;
-  document.getElementById('family-wife-score').textContent = f.wife_score || 'Not set';
-  document.getElementById('family-kids-score').textContent = f.kids_score || 'Not set';
-  document.getElementById('family-overall-score').textContent = f.overall_score || 'Not set';
-  document.getElementById('family-gratitude-streak').textContent = f.gratitude_streak || 0;
-  document.getElementById('family-quality-time').textContent = f.quality_time || 'Not tracked yet';
-}
-
-function renderWealth() {
-  const w = data.wealth;
-  document.getElementById('wealth-current').textContent = w.net_worth;
-  document.getElementById('wealth-target').textContent = w.target;
-  document.getElementById('wealth-progress').textContent = w.progress_pct.toFixed(1) + '%';
-  
-  const remaining = (w.target_raw - w.net_worth_raw) / 1000000;
-  document.getElementById('wealth-remaining').textContent = '$' + remaining.toFixed(2) + 'M';
-  
-  document.getElementById('wealth-progress-bar').style.width = w.progress_pct + '%';
-  
-  // History chart
-  renderChart('wealth-history-chart', w.monthly.map(m => m.value), w.target_raw, 'wealth-tooltip');
-  
-  // Categories table
-  let catHTML = '';
-  const totalAssets = w.total_assets;
-  for (const [cat, value] of Object.entries(w.categories)) {
-    const pct = ((value / totalAssets) * 100).toFixed(1);
-    catHTML += `<tr>
-      <td>${cat}</td>
-      <td>$${(value / 1000000).toFixed(2)}M</td>
-      <td>${pct}%</td>
-    </tr>`;
-  }
-  document.getElementById('wealth-categories-table').innerHTML = catHTML;
-  
-  // Liabilities table
-  let liabHTML = '';
-  for (const liab of w.liabilities) {
-    liabHTML += `<tr>
-      <td>${liab.name}</td>
-      <td>$${(liab.value / 1000).toFixed(0)}K</td>
-      <td>${liab.rate}</td>
-    </tr>`;
-  }
-  document.getElementById('wealth-liabilities-table').innerHTML = liabHTML;
-}
-
-function renderChart(containerId, values, max, tooltipId, suffix) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  const maxVal = Math.max(...values, max || 0);
-  const tooltip = tooltipId ? document.getElementById(tooltipId) : null;
-  
-  values.forEach((val, i) => {
-    const bar = document.createElement('div');
-    bar.className = 'chart-bar';
-    const height = (val / maxVal) * 100;
-    bar.style.height = height + '%';
-    bar.style.background = getHealthColor(val, max / 2);
-    
-    if (tooltip) {
-      bar.addEventListener('mouseenter', (e) => {
-        const formatted = val > 1000 ? '$' + (val/1000000).toFixed(2) + 'M' : val.toFixed(1) + (suffix || '');
-        tooltip.textContent = formatted;
-        tooltip.classList.add('visible');
-        tooltip.style.left = (e.clientX + 10) + 'px';
-        tooltip.style.top = (e.clientY - 30) + 'px';
-      });
-      bar.addEventListener('mousemove', (e) => {
-        tooltip.style.left = (e.clientX + 10) + 'px';
-        tooltip.style.top = (e.clientY - 30) + 'px';
-      });
-      bar.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
-      bar.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const formatted = val > 1000 ? '$' + (val/1000000).toFixed(2) + 'M' : val.toFixed(1) + (suffix || '');
-        tooltip.textContent = formatted;
-        tooltip.classList.add('visible');
-        tooltip.style.left = (e.touches[0].clientX + 10) + 'px';
-        tooltip.style.top = (e.touches[0].clientY - 30) + 'px';
-      });
-      bar.addEventListener('touchend', () => tooltip.classList.remove('visible'));
-    }
-    
-    container.appendChild(bar);
-  });
-}
-
-function getHealthColor(value, target = 65) {
-  if (value >= target) return 'trend-up';
-  if (value >= target * 0.85) return 'trend-neutral';
-  return 'trend-down';
-}
+const HASH='e58c7fae7d38b293d68db4fe3d4401d31e2a588748e10f52f3a20785582dda88';
+async function sha256(t){const d=new TextEncoder().encode(t),h=await crypto.subtle.digest('SHA-256',d);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+async function auth(){const p=document.getElementById('pw').value,h=await sha256(p);if(h===HASH){sessionStorage.setItem('auth',h);show()}else{document.getElementById('auth-error').style.display='block';document.getElementById('pw').value=''}}
+function show(){document.getElementById('auth-screen').style.display='none';document.getElementById('app').style.display='block';load();route()}
+function route(){const v=location.hash.slice(1)||'summary';['summary','health','family','wealth'].forEach(n=>{document.getElementById(n+'-view').style.display=n===v?'block':'none';document.getElementById('nav-'+n).classList.toggle('active',n===v)})}
+window.addEventListener('hashchange',route);
+document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')auth()});
+if(sessionStorage.getItem('auth')===HASH)show();
+async function load(){try{const r=await fetch('./data.json'),d=await r.json(),h=d.health||{},w=d.wealth||{},f=d.family||{};const rec=h.latest?.recovery||0;document.getElementById('h-recovery').textContent=rec+'%';document.getElementById('h-recovery').className='big-number '+(rec>=65?'status-good':rec>=52?'status-warn':'status-bad');const sl=document.getElementById('h-sparkline');(h.daily||[]).slice(-7).reverse().forEach(day=>{const b=document.createElement('div');b.className='spark-bar';b.style.height=(day.recovery||0)+'%';b.style.background=day.recovery>=67?'#4ade80':day.recovery>=34?'#fbbf24':'#f87171';sl.appendChild(b)});document.getElementById('h-hrv').textContent=(h.latest?.hrv||0).toFixed(1);document.getElementById('h-rhr').textContent=(h.latest?.rhr||0);document.getElementById('h-sleep').textContent=(h.latest_sleep?.performance||0)+'%';document.getElementById('h-spo2').textContent=(h.latest?.spo2||0)+'%';document.getElementById('f-wife').textContent=f.wife_score||'—';document.getElementById('f-kids').textContent=f.kids_score||'—';document.getElementById('f-overall').textContent=f.overall_score||'—';document.getElementById('w-nw').textContent=w.net_worth||'$4.2M';const pct=w.progress_pct||50;document.getElementById('w-progress').style.width=pct+'%';document.getElementById('w-pct').textContent=pct+'% of $8.4M goal';const wsl=document.getElementById('w-sparkline');(w.monthly||[]).slice(-12).forEach(m=>{const b=document.createElement('div');b.className='spark-bar';b.style.height=Math.min(100,(m.value/4200000)*100)+'%';b.style.background='#4ade80';wsl.appendChild(b)})}catch(e){console.error(e)}}
 </script>
-
 </body>
 </html>
