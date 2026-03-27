@@ -1,7 +1,13 @@
 {
-  "updated_at": "2026-03-26T14:00:38.779353+00:00",
+  "updated_at": "2026-03-27T14:00:43.207018+00:00",
   "health": {
     "daily": [
+      {
+        "recovery": 75.0,
+        "hrv": 18.7,
+        "rhr": 75.0,
+        "spo2": 96.3
+      },
       {
         "recovery": 48.0,
         "hrv": 16.2,
@@ -37,36 +43,30 @@
         "hrv": 23.2,
         "rhr": 72.0,
         "spo2": 94.9
-      },
-      {
-        "recovery": 97.0,
-        "hrv": 21.7,
-        "rhr": 75.0,
-        "spo2": 94.0
       }
     ],
     "averages": {
-      "recovery": 71.3,
-      "hrv": 19.4,
+      "recovery": 68.1,
+      "hrv": 19.0,
       "rhr": 76.4,
-      "spo2": 94.9,
-      "strain": 9.8,
-      "sleep_performance": 84.2
+      "spo2": 95.2,
+      "strain": 9.3,
+      "sleep_performance": 84.9
     },
     "workout_count": 0,
     "latest": {
-      "recovery": 48.0,
-      "hrv": 16.2,
-      "rhr": 78.0,
-      "spo2": 96.8,
-      "skin_temp": 35.1665
+      "recovery": 75.0,
+      "hrv": 18.7,
+      "rhr": 75.0,
+      "spo2": 96.3,
+      "skin_temp": 35.213833
     },
     "latest_sleep": {
-      "performance": 89.0,
-      "efficiency": 97.32245,
-      "respiratory_rate": 14.765625
+      "performance": 90.0,
+      "efficiency": 95.348595,
+      "respiratory_rate": 14.970703
     },
-    "pull_date": "2026-03-26T03:54:49.115756+00:00"
+    "pull_date": "2026-03-26T16:05:56.960188+00:00"
   },
   "family": {
     "wife_score": null,
