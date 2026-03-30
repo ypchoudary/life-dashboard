@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-29T14:00:41.684678+00:00",
+  "updated_at": "2026-03-30T14:00:44.629653+00:00",
   "health": {
     "daily": [
       {
@@ -71,13 +71,13 @@
     "moments": []
   },
   "wealth": {
-    "net_worth": "$4.19M",
-    "net_worth_raw": 4189128.0,
-    "total_assets": 5104749.0,
-    "total_liabilities": 915621.0,
+    "net_worth": "$4.01M",
+    "net_worth_raw": 4007376.0,
+    "total_assets": 4922490.0,
+    "total_liabilities": 915114.0,
     "target": "$8.4M",
     "target_raw": 8400000,
-    "progress_pct": 49.9,
+    "progress_pct": 47.7,
     "monthly": [
       {
         "month": "Jan 2025",
@@ -138,12 +138,16 @@
       {
         "month": "Mar 2026",
         "value": 4189128.0
+      },
+      {
+        "month": "Apr 2026",
+        "value": 4007376.0
       }
     ],
     "assets": [
       {
         "name": "Morgan stanley Brokerage",
-        "value": 620000.0,
+        "value": 595241.0,
         "category": "Liquid"
       },
       {
@@ -153,17 +157,17 @@
       },
       {
         "name": "robinhood",
-        "value": 15000.0,
+        "value": 13454.0,
         "category": "Liquid"
       },
       {
         "name": "Fidelity Puneet 401K",
-        "value": 482620.0,
+        "value": 459528.0,
         "category": "Retirement"
       },
       {
         "name": "Ramya 401K",
-        "value": 45000.0,
+        "value": 40000.0,
         "category": "Retirement"
       },
       {
@@ -178,7 +182,7 @@
       },
       {
         "name": "Ankura India Property",
-        "value": 676471.0,
+        "value": 611702.0,
         "category": "RE"
       },
       {
@@ -188,22 +192,22 @@
       },
       {
         "name": "Ramya India Property",
-        "value": 500000.0,
+        "value": 452128.0,
         "category": "RE"
       },
       {
         "name": "Coinbase",
-        "value": 42605.0,
+        "value": 42911.0,
         "category": "Liquid"
       },
       {
         "name": "Stockplan connect",
-        "value": 27078.0,
+        "value": 101663.0,
         "category": "Liquid"
       },
       {
         "name": "Inheritance",
-        "value": 941176.0,
+        "value": 851064.0,
         "category": "RE"
       },
       {
@@ -215,7 +219,7 @@
     "liabilities": [
       {
         "name": "Morgan stanley securities backed loan",
-        "value": 230108.0,
+        "value": 229601.0,
         "rate": "3.50%"
       },
       {
@@ -235,9 +239,9 @@
       }
     ],
     "categories": {
-      "Liquid": 704683.0,
-      "Retirement": 557419.0,
-      "RE": 3817647.0,
+      "Liquid": 753269.0,
+      "Retirement": 529327.0,
+      "RE": 3614894.0,
       "Misc": 25000.0
     }
   }
