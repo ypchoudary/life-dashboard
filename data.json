@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-30T14:00:44.629653+00:00",
+  "updated_at": "2026-03-31T14:00:21.404827+00:00",
   "health": {
     "daily": [
       {
@@ -71,13 +71,13 @@
     "moments": []
   },
   "wealth": {
-    "net_worth": "$4.01M",
-    "net_worth_raw": 4007376.0,
-    "total_assets": 4922490.0,
+    "net_worth": "$4.08M",
+    "net_worth_raw": 4082376.0,
+    "total_assets": 4997490.0,
     "total_liabilities": 915114.0,
     "target": "$8.4M",
     "target_raw": 8400000,
-    "progress_pct": 47.7,
+    "progress_pct": 48.6,
     "monthly": [
       {
         "month": "Jan 2025",
@@ -141,7 +141,7 @@
       },
       {
         "month": "Apr 2026",
-        "value": 4007376.0
+        "value": 4082376.0
       }
     ],
     "assets": [
@@ -157,7 +157,7 @@
       },
       {
         "name": "robinhood",
-        "value": 13454.0,
+        "value": 88454.0,
         "category": "Liquid"
       },
       {
@@ -239,7 +239,7 @@
       }
     ],
     "categories": {
-      "Liquid": 753269.0,
+      "Liquid": 828269.0,
       "Retirement": 529327.0,
       "RE": 3614894.0,
       "Misc": 25000.0
